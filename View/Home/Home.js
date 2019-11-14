@@ -6,7 +6,8 @@ import {
         View,
         Image,
         SafeAreaView,
-        Alert
+        Alert,
+        ImageBackground
       } from "react-native";
 
 
@@ -36,34 +37,36 @@ class Home extends React.Component<Props> {
 
     return (
       <SafeAreaView style={styles.container}>
-        <View style={styles.card}>
-          <Image
-            style={styles.logo}
-            source={require('../../Assets/logo.png')}
-            resizeMode='contain'
-          />
-          <TouchableOpacity
-            style={styles.btn}
-            onPress={() => this.pressGuest()}
-            title="Create a room"
-          >
-            <Text style={styles.txt}> Create a room </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.btn}
-            onPress={() => this.pressGuest()}
-            title="Join a room"
-          >
-            <Text style={styles.txt}> Join a room </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.btn, styles.logout]}
-            onPress={() => this.pressLogout()}
-            title="Log Out"
-          >
-            <Text style={styles.txt}> Log Out </Text>
-          </TouchableOpacity>
-        </View>
+        <ImageBackground source={require('../../Assets/bg.jpg')} style={styles.bg}>
+          <View style={styles.card}>
+            <Image
+              style={styles.logo}
+              source={require('../../Assets/logo.png')}
+              resizeMode='contain'
+            />
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => this.pressGuest()}
+              title="Create a room"
+            >
+              <Text style={styles.txt}> Create a room </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.btn}
+              onPress={() => this.pressGuest()}
+              title="Join a room"
+            >
+              <Text style={styles.txt}> Join a room </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.btn, styles.logout]}
+              onPress={() => this.pressLogout()}
+              title="Log Out"
+            >
+              <Text style={styles.txt}> Log Out </Text>
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
       </SafeAreaView>
     )
   }
@@ -114,6 +117,13 @@ const styles = StyleSheet.create({
   },
   logout: {
     backgroundColor: 'grey',
+  },
+  bg: {
+    width: "100%",
+    height: "100%",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 });
 

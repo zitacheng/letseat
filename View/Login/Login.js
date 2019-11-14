@@ -5,7 +5,9 @@ import {
         TouchableOpacity,
         View,
         Image,
-        SafeAreaView} from "react-native";
+        SafeAreaView,
+        ImageBackground
+      } from "react-native";
 
 var FBLoginButton = require('./FBLoginButton.js');
 
@@ -24,21 +26,23 @@ class Login extends React.Component<Props> {
 
     return (
       <SafeAreaView style={styles.container}>
-        <View style={styles.card}>
-          <Image
-            style={styles.logo}
-            source={require('../../Assets/logo.png')}
-            resizeMode='contain'
-          />
-          <TouchableOpacity
-            style={styles.guest}
-            onPress={() => this.pressGuest()}
-            title="Login as guest"
-          >
-            <Text style={styles.txt}> Login as guest </Text>
-          </TouchableOpacity>
-          <FBLoginButton />
-        </View>
+        <ImageBackground source={require('../../Assets/bg.jpg')} style={styles.bg}>
+          <View style={styles.card}>
+            <Image
+              style={styles.logo}
+              source={require('../../Assets/logo.png')}
+              resizeMode='contain'
+            />
+            <TouchableOpacity
+              style={styles.guest}
+              onPress={() => this.pressGuest()}
+              title="Login as guest"
+            >
+              <Text style={styles.txt}> Login as guest </Text>
+            </TouchableOpacity>
+            <FBLoginButton />
+          </View>
+        </ImageBackground>
       </SafeAreaView>
     )
   }
@@ -86,6 +90,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     elevation: 5,
     borderRadius: 5,
+  },
+  bg: {
+    width: "100%",
+    height: "100%",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 });
 
