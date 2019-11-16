@@ -17,10 +17,6 @@ class Home extends React.Component<Props> {
    super();
   }
 
-  pressGuest() {
-    console.log("pressed");
-  }
-
   pressLogout() {
     Alert.alert(
       'Important message',
@@ -33,11 +29,15 @@ class Home extends React.Component<Props> {
     )
   }
 
+  goLobby(host) {
+    this.props.navigation.navigate('Lobby', {host: host});
+  }
+
   render() {
 
     return (
-      <SafeAreaView style={styles.container}>
-        <ImageBackground source={require('../../Assets/bg.jpg')} style={styles.bg}>
+      <ImageBackground source={require('../../Assets/bg.jpg')} style={styles.bg}>
+        <SafeAreaView style={styles.container}>
           <View style={styles.card}>
             <Image
               style={styles.logo}
@@ -46,14 +46,14 @@ class Home extends React.Component<Props> {
             />
             <TouchableOpacity
               style={styles.btn}
-              onPress={() => this.pressGuest()}
+              onPress={() => this.goLobby(true)}
               title="Create a room"
             >
               <Text style={styles.txt}> Create a room </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.btn}
-              onPress={() => this.pressGuest()}
+              onPress={() => this.goLobby(false)}
               title="Join a room"
             >
               <Text style={styles.txt}> Join a room </Text>
@@ -66,8 +66,8 @@ class Home extends React.Component<Props> {
               <Text style={styles.txt}> Log Out </Text>
             </TouchableOpacity>
           </View>
-        </ImageBackground>
-      </SafeAreaView>
+        </SafeAreaView>
+      </ImageBackground>
     )
   }
 }
@@ -82,7 +82,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: "#5c1205",
   },
   card: {
     display: 'flex',
@@ -120,10 +119,7 @@ const styles = StyleSheet.create({
   },
   bg: {
     width: "100%",
-    height: "100%",
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: "100%"
   }
 });
 

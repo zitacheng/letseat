@@ -25,8 +25,8 @@ class Login extends React.Component<Props> {
   render() {
 
     return (
-      <SafeAreaView style={styles.container}>
-        <ImageBackground source={require('../../Assets/bg.jpg')} style={styles.bg}>
+      <ImageBackground source={require('../../Assets/bg.jpg')} style={styles.bg}>
+        <SafeAreaView style={styles.container}>
           <View style={styles.card}>
             <Image
               style={styles.logo}
@@ -42,8 +42,8 @@ class Login extends React.Component<Props> {
             </TouchableOpacity>
             <FBLoginButton />
           </View>
-        </ImageBackground>
-      </SafeAreaView>
+        </SafeAreaView>
+      </ImageBackground>
     )
   }
 }
@@ -58,7 +58,10 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: "#FED576",
+  },
+  bg: {
+    width: "100%",
+    height: "100%",
   },
   guest: {
     backgroundColor: '#5c1205',
@@ -90,13 +93,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     elevation: 5,
     borderRadius: 5,
-  },
-  bg: {
-    width: "100%",
-    height: "100%",
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
   }
 });
 
