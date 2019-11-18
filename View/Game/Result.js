@@ -10,51 +10,23 @@ import {
         ImageBackground
       } from "react-native";
 import CountdownCircle from 'react-native-countdown-circle'
-import Questions from '../Questions.js'
 
-class Game extends React.Component<Props> {
+class Result extends React.Component<Props> {
 
   constructor(props) {
    super(props);
 
    this.state = {
-     random: Math.floor(Math.random() * 4) + 0,
-     end: false,
-     length: Object.keys(Questions).length,
-     id: 0,
-     response: []
-    }
-    this.endQuestion = this.endQuestion.bind(this);
-  }
 
-  endQuestion() {
-    this.setState({
-      end: true
-    });
-    setTimeout(() => {
-      if (this.state.id + 1 < this.state.length) {
-        this.setState({
-          id: this.state.id + 1,
-          end: false
-        });
-        this.countdown.restartCount();
-      }
-      else {
-        this.props.navigation.navigate('Result');
-      }
-    }, 2000);
+    }
   }
 
   quitGame() {
-    Alert.alert(
-      'Important message',
-      'Are you sure to quit the quizz?',
-      [
-        {text: 'Yes', onPress: () => this.props.navigation.navigate('Home')},
-        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-      ],
-      { cancelable: false }
-    )
+     this.props.navigation.navigate('Home');
+  }
+
+  endGame() {
+
   }
 
   render() {
@@ -74,32 +46,19 @@ class Game extends React.Component<Props> {
           </TouchableOpacity>
           <View style={styles.body}>
             <View style={styles.card}>
-              <CountdownCircle
-                 ref = {ref => this.countdown = ref}
-                 seconds={10}
-                 radius={30}
-                 borderWidth={8}
-                 color="#ff003f"
-                 bgColor="#fff"
-                 textStyle={styles.timer}
-                 onTimeElapsed={this.endQuestion}
-               />
-               <Text style={styles.txt}> {Object.keys(Questions)[this.state.id]} </Text>
-               <View style={styles.column}>
-               {Object.keys(Object.values(Questions)[this.state.id]).map((item, i) => (
-                 <View style={styles.row} key={i}>
-                   <TouchableOpacity
-                     style={styles.question}
-                     onPress={() => this.endQuestion(item, i)}
-                   >
-                     <Text style={styles.btnTxt}> {item} </Text>
-                   </TouchableOpacity>
-                   {this.state.end && <View style={styles.txt}>
-                    <Text>25%</Text>
-                   </View>}
-                 </View>
-               ))}
-               </View>
+              <Text style={styles}> How about panda express? </Text>
+              <TouchableOpacity
+                style={styles.question}
+                onPress={() => this.endGame()}
+              >
+                <Text style={styles.btnTxt}> Yes </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.question}
+                onPress={() => this.endGame()}
+              >
+                <Text style={styles.btnTxt}> No </Text>
+              </TouchableOpacity>
             </View>
           </View>
         </SafeAreaView>
@@ -184,9 +143,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 10,
   },
-  timer: {
-    fontSize: 20,
-  },
 });
 
-export default Game;
+export default Result;

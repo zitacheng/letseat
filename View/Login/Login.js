@@ -18,7 +18,6 @@ class Login extends React.Component<Props> {
   }
 
   pressGuest() {
-    console.log("pressed");
     this.props.navigation.navigate('Home');
   }
 

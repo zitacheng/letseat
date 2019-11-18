@@ -6,6 +6,7 @@ import Login from "./View/Login/Login.js";
 import Home from "./View/Home/Home.js";
 import Lobby from "./View/Lobby/Lobby.js";
 import Game from "./View/Game/Game.js";
+import Result from "./View/Game/Result.js";
 
 const MainNavigator = createStackNavigator({
   Login: {screen: Login, navigationOptions: {
@@ -18,6 +19,9 @@ const MainNavigator = createStackNavigator({
         header: null,
       }},
   Game: {screen: Game, navigationOptions: {
+        header: null,
+      }},
+  Result: {screen: Result, navigationOptions: {
         header: null,
       }}
 },
