@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   guest: {
-    backgroundColor: '#5c1205',
+    backgroundColor: '#FED576',
     borderRadius: 3,
     padding: 7,
     margin: 10,

@@ -9,13 +9,32 @@ import {
         Alert,
         ImageBackground
       } from "react-native";
+import Dialog from "react-native-dialog";
 
 
 class Home extends React.Component<Props> {
 
   constructor() {
    super();
+
+   this.state = {
+     dialogVisible: false
+   }
   }
+
+  showDialog = () => {
+    this.setState({ dialogVisible: true });
+  };
+
+  handleCancel = () => {
+     this.setState({ dialogVisible: false });
+  };
+
+  handleRoom = () => {
+    this.setState({ dialogVisible: false });
+    this.props.navigation.navigate('Lobby');
+  };
+
 
   pressLogout() {
     Alert.alert(
@@ -53,10 +72,9 @@ class Home extends React.Component<Props> {
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.btn}
-              onPress={() => this.goLobby(false)}
-              title="Join a room"
+              onPress={() => this.showDialog()}
             >
-              <Text style={styles.txt}> Join a room </Text>
+              <Text style={styles.txt}>Join a room</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={[styles.btn, styles.logout]}
@@ -65,6 +83,16 @@ class Home extends React.Component<Props> {
             >
               <Text style={styles.txt}> Log Out </Text>
             </TouchableOpacity>
+            <Dialog.Container visible={this.state.dialogVisible}>
+             <Dialog.Title>Join a room</Dialog.Title>
+             <Dialog.Description>
+               Please enter the room number:
+             </Dialog.Description>
+             <Dialog.Input>
+             </Dialog.Input>
+             <Dialog.Button label="Cancel" onPress={this.handleCancel} />
+             <Dialog.Button label="Join" onPress={this.handleRoom} />
+           </Dialog.Container>
           </View>
         </SafeAreaView>
       </ImageBackground>
