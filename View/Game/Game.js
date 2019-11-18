@@ -27,7 +27,14 @@ class Game extends React.Component<Props> {
     this.endQuestion = this.endQuestion.bind(this);
   }
 
-  endQuestion() {
+  endQuestion(user, item, i, data) {
+
+    if (!user) {
+      data = Object.keys(Object.values(Questions)[this.state.id]);
+      i = Math.floor(Math.random() * (data.length - 1)) + 0; // a random number between 0 and the total answer length
+    }
+    //push answer to the response table
+    this.state.response.push(Object.values(Object.values(Questions)[this.state.id])[i]);
     this.setState({
       end: true
     });
@@ -86,11 +93,11 @@ class Game extends React.Component<Props> {
                />
                <Text style={styles.txt}> {Object.keys(Questions)[this.state.id]} </Text>
                <View style={styles.column}>
-               {Object.keys(Object.values(Questions)[this.state.id]).map((item, i) => (
+               {Object.keys(Object.values(Questions)[this.state.id]).map((item, i, data) => (
                  <View style={styles.row} key={i}>
                    <TouchableOpacity
                      style={styles.question}
-                     onPress={() => this.endQuestion(item, i)}
+                     onPress={() => this.endQuestion(true, item, i, data)}
                    >
                      <Text style={styles.btnTxt}> {item} </Text>
                    </TouchableOpacity>
