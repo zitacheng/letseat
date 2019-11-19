@@ -10,15 +10,29 @@ import {
         ImageBackground
       } from "react-native";
 import CountdownCircle from 'react-native-countdown-circle'
+import Food from '../Food.js'
 
 class Result extends React.Component<Props> {
 
   constructor(props) {
-   super(props);
+     super(props);
 
-   this.state = {
+     this.state = {
+       res: props.navigation.getParam('res'),
+       finish: false,
+       final: []
+     }
 
-    }
+    // console.log("test", this.state.res[0]);
+    console.log(this.state.res);
+    // checkPrice(this.state.res[0]);
+    // checkTemp(this.state.res[1]);
+    // checkDistance(this.state.res[2]);
+    // checkWait(this.state.res[3]);
+    // checkMealType(this.state.res[4]);
+    // checkCategory(this.state.res[5]);
+    this.state.finish = true;
+
   }
 
   quitGame() {
@@ -26,6 +40,30 @@ class Result extends React.Component<Props> {
   }
 
   endGame() {
+
+  }
+
+  checkPrice() {
+
+  }
+
+  checkTemp() {
+
+  }
+
+  checkDistance() {
+
+  }
+
+  checkWait() {
+
+  }
+
+  checkMealType() {
+
+  }
+
+  checkCategory() {
 
   }
 
@@ -45,8 +83,8 @@ class Result extends React.Component<Props> {
             />
           </TouchableOpacity>
           <View style={styles.body}>
-            <View style={styles.card}>
-              <Text style={styles}> How about panda express? </Text>
+            {this.state.finish && <View style={styles.card}>
+              <Text style={styles.txt}> How about panda express? </Text>
               <TouchableOpacity
                 style={styles.question}
                 onPress={() => this.endGame()}
@@ -59,7 +97,7 @@ class Result extends React.Component<Props> {
               >
                 <Text style={styles.btnTxt}> No </Text>
               </TouchableOpacity>
-            </View>
+            </View>}
           </View>
         </SafeAreaView>
       </ImageBackground>

@@ -22,34 +22,39 @@ class Game extends React.Component<Props> {
      end: false,
      length: Object.keys(Questions).length,
      id: 0,
-     response: []
+     response: [],
+     finished: false
     }
     this.endQuestion = this.endQuestion.bind(this);
   }
 
   endQuestion(user, item, i, data) {
 
-    if (!user) {
-      data = Object.keys(Object.values(Questions)[this.state.id]);
-      i = Math.floor(Math.random() * (data.length - 1)) + 0; // a random number between 0 and the total answer length
+    if (!this.state.finished) {
+      if (!user) {
+        data = Object.keys(Object.values(Questions)[this.state.id]);
+        i = Math.floor(Math.random() * (data.length - 1)) + 0; // a random number between 0 and the total answer length
+      }
+      //push answer to the response table
+
+      this.state.response.push(Object.values(Object.values(Questions)[this.state.id])[i]);
+      this.setState({
+        end: true
+      });
+      setTimeout(() => {
+        if (this.state.id + 1 < this.state.length) {
+          this.setState({
+            id: this.state.id + 1,
+            end: false
+          });
+          this.countdown.restartCount();
+        }
+        else {
+          this.state.finished = true;
+          this.props.navigation.navigate('Result', {res: this.state.response});
+        }
+      }, 1500);
     }
-    //push answer to the response table
-    this.state.response.push(Object.values(Object.values(Questions)[this.state.id])[i]);
-    this.setState({
-      end: true
-    });
-    setTimeout(() => {
-      if (this.state.id + 1 < this.state.length) {
-        this.setState({
-          id: this.state.id + 1,
-          end: false
-        });
-        this.countdown.restartCount();
-      }
-      else {
-        this.props.navigation.navigate('Result');
-      }
-    }, 2000);
   }
 
   quitGame() {
@@ -96,6 +101,7 @@ class Game extends React.Component<Props> {
                {Object.keys(Object.values(Questions)[this.state.id]).map((item, i, data) => (
                  <View style={styles.row} key={i}>
                    <TouchableOpacity
+                     disabled={this.state.end}
                      style={styles.question}
                      onPress={() => this.endQuestion(true, item, i, data)}
                    >
