@@ -20,11 +20,13 @@ class Result extends React.Component<Props> {
      this.state = {
        res: props.navigation.getParam('res'),
        finish: false,
-       final: []
+       final: [],
+       matches: []   // maybe the array that will store every restaurant with the number of matches
      }
 
     // console.log("test", this.state.res[0]);
-    console.log(this.state.res);
+    console.log("res = ", this.state.res);
+    console.log(Food);
     // checkPrice(this.state.res[0]);
     // checkTemp(this.state.res[1]);
     // checkDistance(this.state.res[2]);

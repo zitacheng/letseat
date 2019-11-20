@@ -23,21 +23,35 @@ class Game extends React.Component<Props> {
      length: Object.keys(Questions).length,
      id: 0,
      response: [],
-     finished: false
+     finished: false,
+     bots: props.navigation.getParam('bot'),
+     percentage: [0, 0, 0, 0, 0]
     }
     this.endQuestion = this.endQuestion.bind(this);
   }
 
   endQuestion(user, item, i, data) {
 
+    //reset the percentage table to 0
+    this.state.percentage.fill(0, 0, 5);
+
     if (!this.state.finished) {
       if (!user) {
         data = Object.keys(Object.values(Questions)[this.state.id]);
         i = Math.floor(Math.random() * (data.length - 1)) + 0; // a random number between 0 and the total answer length
       }
-      //push answer to the response table
+      //This one for the user click
+      this.state.percentage[i] = this.state.percentage[i] + 1;
 
-      this.state.response.push(Object.values(Object.values(Questions)[this.state.id])[i]);
+      //These are bots click
+      for (var l = 0; l < this.state.bots; l++) { //TODO check <= or < and why first time is 3 in total
+        // console.log("for i = ", i);
+          i = Math.floor(Math.random() * (data.length - 1)) + 0;
+          this.state.percentage[i] = this.state.percentage[i] + 1;
+      }
+
+      var highest = this.state.percentage.indexOf(Math.max(...this.state.percentage));
+      this.state.response.push(Object.values(Object.values(Questions)[this.state.id])[highest]);
       this.setState({
         end: true
       });
@@ -108,7 +122,7 @@ class Game extends React.Component<Props> {
                      <Text style={styles.btnTxt}> {item} </Text>
                    </TouchableOpacity>
                    {this.state.end && <View style={styles.txt}>
-                    <Text>25%</Text>
+                    <Text>{this.state.percentage[i] / (this.state.bots + 1) * 100}%</Text>
                    </View>}
                  </View>
                ))}
