@@ -5,15 +5,15 @@ export default {
     "$$$": 3,
     "$$$$": 4
   },
-  "Do you want something hot or cold?": {
+  "Do you want something hot or something cold?": {
     "hot": 1,
     "cold": 2
   },
   "How far are you willing to travel?": {
     "> 1 miles": 1,
     "> 5 miles": 5,
-    "> 15 miles": 15,
-    "> 30 miles": 30
+    "> 10 miles": 10,
+    "> 20 miles": 20
   },
   "How long are you willing to wait?": {
     "5 minutes": 5,
@@ -21,11 +21,11 @@ export default {
     "30 minutes": 30,
     "1 hour": 60
   },
-  "Do you want a meal or a dessert?": {
+  "What are we having?": {
     "Something sweet": 1,
-    "A real meal": 2
+    "Something filling": 2
   },
-  "What category of food do you prefer?": {
+  "What type of food are you feeling right now?": {
     "Asian": 1,
     "Mexican": 2,
     "Italian": 3,
