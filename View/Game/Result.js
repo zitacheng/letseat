@@ -20,20 +20,36 @@ class Result extends React.Component<Props> {
      this.state = {
        res: props.navigation.getParam('res'),
        finish: false,
-       final: [],
-       matches: []   // maybe the array that will store every restaurant with the number of matches
+       final: {},
+       result: ""
      }
 
     // console.log("test", this.state.res[0]);
-    console.log("res = ", this.state.res);
-    console.log(Food);
+    // console.log("res = ", this.state.res);
+    // console.log(Food);
     // checkPrice(this.state.res[0]);
     // checkTemp(this.state.res[1]);
     // checkDistance(this.state.res[2]);
     // checkWait(this.state.res[3]);
     // checkMealType(this.state.res[4]);
     // checkCategory(this.state.res[5]);
+
+    var first = 0;
+    Object.keys(Food).forEach(function(key) {
+        this.state.final[key] = 0;
+        this.checkPrice(key, Food[key]);
+        this.checkTemp(key, Food[key]);
+        this.checkDistance(key, Food[key]);
+        this.checkWait(key, Food[key]);
+        this.checkMealType(key, Food[key]);
+        this.checkCategory(key, Food[key]);
+        if (this.state.final[key] > first){
+          first = this.state.final[key];
+          this.state.result = key;
+        }
+    }.bind(this));
     this.state.finish = true;
+    // console.log("final = ", this.state.final);
 
   }
 
@@ -45,28 +61,34 @@ class Result extends React.Component<Props> {
 
   }
 
-  checkPrice() {
-
+  checkPrice(key, data) {
+    if (data[0] <= this.state.res[0])
+      this.state.final[key] += 1;
   }
 
-  checkTemp() {
-
+  checkTemp(key, data) {
+    if (data[1] == this.state.res[1])
+      this.state.final[key] += 1;
   }
 
-  checkDistance() {
-
+  checkDistance(key, data) {
+    if (data[2] <= this.state.res[2])
+      this.state.final[key] += 1;
   }
 
-  checkWait() {
-
+  checkWait(key, data) {
+    if (data[3] <= this.state.res[3])
+      this.state.final[key] += 1;
   }
 
-  checkMealType() {
-
+  checkMealType(key, data) {
+    if (data[4] == this.state.res[4])
+      this.state.final[key] += 1;
   }
 
-  checkCategory() {
-
+  checkCategory(key, data) {
+    if (data[5] == this.state.res[5])
+      this.state.final[key] += 1;
   }
 
   render() {
@@ -86,7 +108,7 @@ class Result extends React.Component<Props> {
           </TouchableOpacity>
           <View style={styles.body}>
             {this.state.finish && <View style={styles.card}>
-              <Text style={styles.txt}> How about panda express? </Text>
+              <Text style={styles.txt}> How about {this.state.result}? </Text>
               <TouchableOpacity
                 style={styles.question}
                 onPress={() => this.endGame()}

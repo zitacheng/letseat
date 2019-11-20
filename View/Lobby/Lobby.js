@@ -28,7 +28,7 @@ class Lobby extends React.Component<Props> {
       this.state.nb = this.state.room;
     }
     console.log("total bot = ", this.state.bot);
-    this.state.people = this.state.bot;   // TODO comment faire l'animation
+    this.state.people += this.state.bot;   // TODO comment faire l'animation
   }
 
   pressStart() {
