@@ -20,15 +20,14 @@ class Lobby extends React.Component<Props> {
         nb: Math.floor(Math.random() * 4000) + 1000,
         people: 1,
         host: props.navigation.getParam('host'),
+        room: props.navigation.getParam('room'),
         bot: Math.floor(Math.random() * 5) + 1,
     }
 
+    if (!this.state.host) {
+      this.state.nb = this.state.room;
+    }
     console.log("total bot = ", this.state.bot);
-    // while (this.state.people <= this.state.bot) {
-    //   console.log("inside");
-    //     this.state.people += 1;
-    //     this.forceUpdate();
-    // }
     this.state.people = this.state.bot;   // TODO comment faire l'animation
   }
 

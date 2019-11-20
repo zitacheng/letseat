@@ -122,7 +122,7 @@ class Game extends React.Component<Props> {
                      <Text style={styles.btnTxt}> {item} </Text>
                    </TouchableOpacity>
                    {this.state.end && <View style={styles.txt}>
-                    <Text>{this.state.percentage[i] / (this.state.bots + 1) * 100}%</Text>
+                    <Text>{(this.state.percentage[i] / (this.state.bots + 1) * 100).toFixed(2)}%</Text>
                    </View>}
                  </View>
                ))}
