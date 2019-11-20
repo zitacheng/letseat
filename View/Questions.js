@@ -28,7 +28,8 @@ export default {
   "What category of food do you prefer?": {
     "Asian": 1,
     "Mexican": 2,
-    "Burger": 3,
-    "Mediterranean": 4
+    "Italian": 3,
+    "American": 4,
+    "Dessert": 5
   }
 }
