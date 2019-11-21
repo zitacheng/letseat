@@ -9,7 +9,9 @@ import {
         Alert,
         ImageBackground
       } from "react-native";
+import AnimateNumber from 'react-native-countup'
 
+//TODO splash screen
 
 class Lobby extends React.Component<Props> {
 
@@ -22,17 +24,20 @@ class Lobby extends React.Component<Props> {
         host: props.navigation.getParam('host'),
         room: props.navigation.getParam('room'),
         bot: Math.floor(Math.random() * 5) + 1,
+        total: 0,
     }
 
     if (!this.state.host) {
       this.state.nb = this.state.room;
+      this.state.people += 1;
     }
-    console.log("total bot = ", this.state.bot);
-    this.state.people += this.state.bot;   // TODO comment faire l'animation
+
+    this.state.total = this.state.people + this.state.bot;
+
   }
 
   pressStart() {
-    this.props.navigation.navigate('Game', {bot: (this.state.bot)});
+    this.props.navigation.navigate('Game', {bot: this.state.bot});
   }
 
   render() {
@@ -63,7 +68,14 @@ class Lobby extends React.Component<Props> {
               </View>
               <View style={styles.row}>
                 <Text style={styles.txt}> Total people: </Text>
-                <Text style={styles.txt}> {this.state.people} </Text>
+                {this.state.total > 0 &&
+                  <AnimateNumber
+                  initial={this.state.people}
+                  value={this.state.total}
+                  onFinish={() => this.props.navigation.navigate('Game', {bot: (this.state.bot + 1)})}
+                  countBy={1} timing={(interval, progress) => {
+                    return interval * (1 - Math.sin(Math.PI*progress) )*100;
+                  }}/>}
               </View>
             </View>
             <TouchableOpacity

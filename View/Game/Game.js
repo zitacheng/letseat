@@ -25,7 +25,9 @@ class Game extends React.Component<Props> {
      response: [],
      finished: false,
      bots: props.navigation.getParam('bot'),
-     percentage: [0, 0, 0, 0, 0]
+     percentage: [0, 0, 0, 0, 0],
+     questions: 0,
+     sweet: false,
     }
     this.endQuestion = this.endQuestion.bind(this);
   }
@@ -44,18 +46,25 @@ class Game extends React.Component<Props> {
       this.state.percentage[i] = this.state.percentage[i] + 1;
 
       //These are bots click
-      for (var l = 0; l < this.state.bots; l++) { //TODO check <= or < and why first time is 3 in total
-        // console.log("for i = ", i);
-          i = Math.floor(Math.random() * (data.length - 1)) + 0;
-          this.state.percentage[i] = this.state.percentage[i] + 1;
+      for (var l = 0; l < this.state.bots; l++) {
+        i = Math.floor(Math.random() * (data.length - 1)) + 0;
+        if (this.state.questions == 5 && this.state.sweet) {
+          i = 4;
+        }
+
+        console.log("percentage ", this.state.percentage);
+        this.state.percentage[i] = this.state.percentage[i] + 1;
       }
 
       var highest = this.state.percentage.indexOf(Math.max(...this.state.percentage));
       this.state.response.push(Object.values(Object.values(Questions)[this.state.id])[highest]);
+      if (this.state.questions == 4 && highest == 0)
+        this.state.sweet = true;
       this.setState({
         end: true
       });
       setTimeout(() => {
+        this.state.questions += 1;
         if (this.state.id + 1 < this.state.length) {
           this.setState({
             id: this.state.id + 1,

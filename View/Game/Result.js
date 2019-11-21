@@ -30,35 +30,34 @@ class Result extends React.Component<Props> {
 
     var first = 0;
     Object.keys(Food).forEach(function(key) {
+      if (this.sameCategory(key, Food[key])) {
         this.state.final[key] = 0;
         this.checkPrice(key, Food[key]);
         this.checkTemp(key, Food[key]);
         this.checkDistance(key, Food[key]);
         this.checkWait(key, Food[key]);
         this.checkMealType(key, Food[key]);
-        this.checkCategory(key, Food[key]);
         if (this.state.final[key] > first){
           first = this.state.final[key];
           this.state.result = key;
         }
+      }
     }.bind(this));
-    this.sortObject = this.sortObject.bind(this);
 
-    this.sortObject(this.state.final);
-    console.log("sort ",this.state.sortRes[0]);
+    var tmp = this;
+    this.state.sortRes = Object.keys(this.state.final).sort(function(a, b) {
+      return tmp.state.final[a] - tmp.state.final[b]
+    });
+    // console.log("t = ",test);
+    // console.log("sort ",this.state.sortRes);
+    this.state.id = this.state.sortRes.length - 1;
     this.state.finish = true;
   }
 
-  sortObject(obj) {
-    var prop;
-    for (prop in obj) {
-        if (obj.hasOwnProperty(prop)) {
-            this.state.sortRes.push(prop);
-        }
-    }
-    this.state.sortRes.sort(function(a, b) {
-        return b.value - a.value;
-    });
+  sameCategory(key, data) {
+    if (data[5] != this.state.res[5])
+      return false;
+    return true;
   }
 
   quitGame() {
@@ -69,8 +68,8 @@ class Result extends React.Component<Props> {
     this.state.sentence = "Thank you for using our app."
 
     if (!state) {
-      if (this.state.sortRes.length > (this.state.id + 1))
-        this.state.id += 1;
+      if (0 < (this.state.id - 1))
+        this.state.id -= 1;
       else {
         state = true;
         this.state.sentence = "We are sorry that you did not find anything."
@@ -104,11 +103,6 @@ class Result extends React.Component<Props> {
 
   checkMealType(key, data) {
     if (data[4] == this.state.res[4])
-      this.state.final[key] += 1;
-  }
-
-  checkCategory(key, data) {
-    if (data[5] == this.state.res[5])
       this.state.final[key] += 1;
   }
 
