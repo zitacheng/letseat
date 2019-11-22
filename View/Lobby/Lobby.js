@@ -9,7 +9,6 @@ import {
         Alert,
         ImageBackground
       } from "react-native";
-import AnimateNumber from 'react-native-countup'
 
 //TODO splash screen
 
@@ -25,6 +24,7 @@ class Lobby extends React.Component<Props> {
         room: props.navigation.getParam('room'),
         bot: Math.floor(Math.random() * 5) + 1,
         total: 0,
+        start: false,
     }
 
     if (!this.state.host) {
@@ -33,11 +33,27 @@ class Lobby extends React.Component<Props> {
     }
 
     this.state.total = this.state.people + this.state.bot;
+    this.state.start = true;
 
+    setTimeout(() => {
+      var interval = setInterval(() => {
+        this.setState({people: this.state.people + 1})
+        if (this.state.people == this.state.total) {
+          clearInterval(interval)
+        }
+      }, 300)
+
+    }, 1000);
+
+    if (!this.state.host) {
+      setTimeout(() => {
+        this.props.navigation.navigate('Game', {bot: this.state.total - 1});
+      }, 3000);
+    }
   }
 
   pressStart() {
-    this.props.navigation.navigate('Game', {bot: this.state.bot});
+    this.props.navigation.navigate('Game', {bot: this.state.total - 1});
   }
 
   render() {
@@ -55,7 +71,7 @@ class Lobby extends React.Component<Props> {
               resizeMode='contain'
             />
           </TouchableOpacity>
-          <View style={styles.body}>
+          {this.state.start && <View style={styles.body}>
             <View style={styles.card}>
               <Image
                 style={styles.logo}
@@ -68,14 +84,7 @@ class Lobby extends React.Component<Props> {
               </View>
               <View style={styles.row}>
                 <Text style={styles.txt}> Total people: </Text>
-                {this.state.total > 0 &&
-                  <AnimateNumber
-                  initial={this.state.people}
-                  value={this.state.total}
-                  onFinish={() => this.props.navigation.navigate('Game', {bot: (this.state.bot + 1)})}
-                  countBy={1} timing={(interval, progress) => {
-                    return interval * (1 - Math.sin(Math.PI*progress) )*100;
-                  }}/>}
+                <Text>{this.state.people}</Text>
               </View>
             </View>
             <TouchableOpacity
@@ -87,7 +96,7 @@ class Lobby extends React.Component<Props> {
               <Text style={styles.btnTxt}> Start </Text>
             </TouchableOpacity>
             {!this.state.host && <Text style={styles.btnTxt}> Waiting for the host to start...</Text>}
-          </View>
+          </View>}
         </SafeAreaView>
       </ImageBackground>
     )

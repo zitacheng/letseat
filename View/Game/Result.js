@@ -9,8 +9,10 @@ import {
         Alert,
         ImageBackground
       } from "react-native";
-import CountdownCircle from 'react-native-countdown-circle'
-import Food from '../Food.js'
+import CountdownCircle from 'react-native-countdown-circle';
+import Food from '../Food.js';
+import getDirections from 'react-native-google-maps-directions';
+
 
 class Result extends React.Component<Props> {
 
@@ -25,7 +27,8 @@ class Result extends React.Component<Props> {
        end: false,
        sortRes: [],
        id: 0,
-       sentence: ""
+       sentence: "",
+       yes: false
      }
 
     var first = 0;
@@ -66,12 +69,14 @@ class Result extends React.Component<Props> {
 
   endGame(state) {
     this.state.sentence = "Thank you for using our app."
+    this.state.yes = true;
 
     if (!state) {
       if (0 < (this.state.id - 1))
         this.state.id -= 1;
       else {
         state = true;
+        this.state.yes = false;
         this.state.sentence = "We are sorry that you did not find anything."
       }
     }
@@ -104,6 +109,33 @@ class Result extends React.Component<Props> {
   checkMealType(key, data) {
     if (data[4] == this.state.res[4])
       this.state.final[key] += 1;
+  }
+
+  handleGetDirections = () => {
+    console.log("name", this.state.sortRes[this.state.id]);
+    // console.log("val = ", Food[this.state.sortRes[this.state.id]]["long"]);
+    const data = {
+       source: {
+        latitude: 33.783822, //CECS
+        longitude: -118.110337 //CECS
+      },
+      destination: {
+        latitude: 33.793424,
+        longitude: -118.137933
+      },
+      params: [
+        {
+          key: "travelmode",
+          value: "walking"        // may be "walking", "bicycling" or "transit" as well
+        },
+        {
+          key: "dir_action",
+          value: "navigate"       // this instantly initializes navigation using the given travel mode
+        }
+      ]
+    }
+
+    getDirections(data)
   }
 
   render() {
@@ -141,12 +173,18 @@ class Result extends React.Component<Props> {
               <View style={styles.card}>
                 <Text style={styles.txt}>{this.state.sentence}</Text>
                 <Text style={styles.txt}>Hope to see you soon.</Text>
-                  <TouchableOpacity
-                    style={styles.question}
-                    onPress={() => this.props.navigation.navigate('Home')}
-                  >
-                    <Text style={styles.btnTxt}> Back to home </Text>
-                  </TouchableOpacity>
+                {this.state.yes && <TouchableOpacity
+                  style={styles.question}
+                  onPress={this.handleGetDirections}
+                >
+                  <Text style={styles.btnTxt}> Get directions </Text>
+                </TouchableOpacity>}
+                <TouchableOpacity
+                  style={styles.question}
+                  onPress={() => this.props.navigation.navigate('Home')}
+                >
+                  <Text style={styles.btnTxt}> Back to home </Text>
+                </TouchableOpacity>
               </View>
             }
           </View>
