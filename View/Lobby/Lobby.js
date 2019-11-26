@@ -10,6 +10,7 @@ import {
         ImageBackground
       } from "react-native";
 
+//TODO splash screen
 
 class Lobby extends React.Component<Props> {
 
@@ -20,11 +21,39 @@ class Lobby extends React.Component<Props> {
         nb: Math.floor(Math.random() * 4000) + 1000,
         people: 1,
         host: props.navigation.getParam('host'),
+        room: props.navigation.getParam('room'),
+        bot: Math.floor(Math.random() * 5) + 1,
+        total: 0,
+        start: false,
+    }
+
+    if (!this.state.host) {
+      this.state.nb = this.state.room;
+      this.state.people += 1;
+    }
+
+    this.state.total = this.state.people + this.state.bot;
+    this.state.start = true;
+
+    setTimeout(() => {
+      var interval = setInterval(() => {
+        this.setState({people: this.state.people + 1})
+        if (this.state.people == this.state.total) {
+          clearInterval(interval)
+        }
+      }, 300)
+
+    }, 1000);
+
+    if (!this.state.host) {
+      setTimeout(() => {
+        this.props.navigation.navigate('Game', {bot: this.state.total - 1});
+      }, 3000);
     }
   }
 
   pressStart() {
-    this.props.navigation.navigate('Game');
+    this.props.navigation.navigate('Game', {bot: this.state.total - 1});
   }
 
   render() {
@@ -42,7 +71,7 @@ class Lobby extends React.Component<Props> {
               resizeMode='contain'
             />
           </TouchableOpacity>
-          <View style={styles.body}>
+          {this.state.start && <View style={styles.body}>
             <View style={styles.card}>
               <Image
                 style={styles.logo}
@@ -55,7 +84,7 @@ class Lobby extends React.Component<Props> {
               </View>
               <View style={styles.row}>
                 <Text style={styles.txt}> Total people: </Text>
-                <Text style={styles.txt}> {this.state.people} </Text>
+                <Text>{this.state.people}</Text>
               </View>
             </View>
             <TouchableOpacity
@@ -67,7 +96,7 @@ class Lobby extends React.Component<Props> {
               <Text style={styles.btnTxt}> Start </Text>
             </TouchableOpacity>
             {!this.state.host && <Text style={styles.btnTxt}> Waiting for the host to start...</Text>}
-          </View>
+          </View>}
         </SafeAreaView>
       </ImageBackground>
     )

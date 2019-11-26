@@ -11,14 +11,14 @@ import {
       } from "react-native";
 import Dialog from "react-native-dialog";
 
-
 class Home extends React.Component<Props> {
 
   constructor() {
    super();
 
    this.state = {
-     dialogVisible: false
+     dialogVisible: false,
+     room: ""
    }
   }
 
@@ -30,9 +30,29 @@ class Home extends React.Component<Props> {
      this.setState({ dialogVisible: false });
   };
 
+
   handleRoom = () => {
-    this.setState({ dialogVisible: false });
-    this.props.navigation.navigate('Lobby');
+    this.setState({ dialogVisible: false },
+      () => {
+        setTimeout(() => {
+          if (!Number.isInteger(parseInt(this.state.room)) || parseInt(this.state.room) < 1000 || parseInt(this.state.room) > 9000)
+            {
+              Alert.alert(
+                'Important message',
+                'Invalid room number.',
+                [
+                  {text: 'Ok', onPress: () => console.log('Ok Pressed')},
+                  {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                ],
+                { cancelable: false }
+              )
+            }
+          else {
+            this.props.navigation.navigate('Lobby', {host: false, room: this.state.room});
+          }
+        }, 500)
+      }
+    );
   };
 
 
@@ -88,7 +108,8 @@ class Home extends React.Component<Props> {
              <Dialog.Description>
                Please enter the room number:
              </Dialog.Description>
-             <Dialog.Input>
+             <Dialog.Input
+               onChangeText={(text) => this.setState({room: text})}>
              </Dialog.Input>
              <Dialog.Button label="Cancel" onPress={this.handleCancel} />
              <Dialog.Button label="Join" onPress={this.handleRoom} />

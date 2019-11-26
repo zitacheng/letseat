@@ -9,7 +9,6 @@ import {
         ImageBackground
       } from "react-native";
 
-var FBLoginButton = require('./FBLoginButton.js');
 
 class Login extends React.Component<Props> {
 
@@ -39,7 +38,6 @@ class Login extends React.Component<Props> {
             >
               <Text style={styles.txt}> Login as guest </Text>
             </TouchableOpacity>
-            <FBLoginButton />
           </View>
         </SafeAreaView>
       </ImageBackground>
@@ -49,7 +47,7 @@ class Login extends React.Component<Props> {
 
 const styles = StyleSheet.create({
   logo: {
-    height: '30%',
+    height: '40%',
     marginBottom: 10
   },
   container: {
@@ -66,7 +64,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FED576',
     borderRadius: 3,
     padding: 7,
-    margin: 10,
+    marginTop: 20,
     width: "58%",
     shadowColor: 'black',
     shadowOffset: {width: 0, height: 3},

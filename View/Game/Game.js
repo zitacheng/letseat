@@ -23,25 +23,47 @@ class Game extends React.Component<Props> {
      length: Object.keys(Questions).length,
      id: 0,
      response: [],
-     finished: false
+     finished: false,
+     bots: props.navigation.getParam('bot'),
+     percentage: [0, 0, 0, 0, 0],
+     questions: 0,
+     sweet: false,
     }
     this.endQuestion = this.endQuestion.bind(this);
   }
 
   endQuestion(user, item, i, data) {
 
+    //reset the percentage table to 0
+    this.state.percentage.fill(0, 0, 5);
+
     if (!this.state.finished) {
+      //If the user did not clicked, we choose a random aswer
       if (!user) {
         data = Object.keys(Object.values(Questions)[this.state.id]);
-        i = Math.floor(Math.random() * (data.length - 1)) + 0; // a random number between 0 and the total answer length
+        i = Math.floor(Math.random() * (data.length - 1)) + 0;
       }
-      //push answer to the response table
+      //The user/random click
+      this.state.percentage[i] = this.state.percentage[i] + 1;
 
-      this.state.response.push(Object.values(Object.values(Questions)[this.state.id])[i]);
+      //These are bots click
+      for (var l = 0; l < this.state.bots; l++) {
+        i = Math.floor(Math.random() * (data.length - 1)) + 0;
+        if (this.state.questions == 5 && this.state.sweet) {  //If the answer before was sweet wo tell the bots to choose dessert
+          i = 4;
+        }
+        this.state.percentage[i] = this.state.percentage[i] + 1;
+      }
+
+      var highest = this.state.percentage.indexOf(Math.max(...this.state.percentage));
+      this.state.response.push(Object.values(Object.values(Questions)[this.state.id])[highest]);
+      if (this.state.questions == 4 && highest == 0) //if sweet wins
+        this.state.sweet = true;
       this.setState({
         end: true
       });
       setTimeout(() => {
+        this.state.questions += 1;
         if (this.state.id + 1 < this.state.length) {
           this.setState({
             id: this.state.id + 1,
@@ -53,7 +75,7 @@ class Game extends React.Component<Props> {
           this.state.finished = true;
           this.props.navigation.navigate('Result', {res: this.state.response});
         }
-      }, 1500);
+      }, 1700);
     }
   }
 
@@ -108,7 +130,7 @@ class Game extends React.Component<Props> {
                      <Text style={styles.btnTxt}> {item} </Text>
                    </TouchableOpacity>
                    {this.state.end && <View style={styles.txt}>
-                    <Text>25%</Text>
+                    <Text>{(this.state.percentage[i] / (this.state.bots + 1) * 100).toFixed(2)}%</Text>
                    </View>}
                  </View>
                ))}
