@@ -112,21 +112,19 @@ class Result extends React.Component<Props> {
   }
 
   handleGetDirections = () => {
-    console.log("name", this.state.sortRes[this.state.id]);
-    // console.log("val = ", Food[this.state.sortRes[this.state.id]]["long"]);
     const data = {
        source: {
         latitude: 33.783822, //CECS
         longitude: -118.110337 //CECS
       },
       destination: {
-        latitude: 33.793424,
-        longitude: -118.137933
+        latitude: Food[this.state.sortRes[this.state.id]]["lat"],
+        longitude: Food[this.state.sortRes[this.state.id]]["long"]
       },
       params: [
         {
           key: "travelmode",
-          value: "walking"        // may be "walking", "bicycling" or "transit" as well
+          value: "driving"        // may be "walking", "bicycling" or "transit" as well
         },
         {
           key: "dir_action",
