@@ -30,6 +30,6 @@ export default {
     "Mexican": 2,
     "Italian": 3,
     "American": 4,
-    "Dessert": 5
+    "Dessert/Drinks": 5
   }
 }
